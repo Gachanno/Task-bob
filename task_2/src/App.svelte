@@ -1,31 +1,76 @@
-<script lang="ts">
-  import svelteLogo from './assets/svelte.svg'
-  import viteLogo from '/vite.svg'
-  import Counter from './lib/Counter.svelte'
-</script>
+<script >
+  import axios from 'axios';
+const valueInput1 = document.querySelector('.input1');
+const selection1 = document.querySelector('.selection1');
+
+const valueInput2 = document.querySelector('.input2');
+const selection2 = document.querySelector('.selection2');
+
+  const Currency = {
+    USD: 'USD',
+    RUB: 'RUB',
+    EUR: 'EUR',
+    GBP: 'GBP',
+  }
+
+function convert1 (curr, inputC, ouptC){
+    axios.get(`https://v6.exchangerate-api.com/v6/d66be1413f5f72c50cbc7c55/latest/${inputC}`)
+.then((RenderCont) =>{
+  let out = RenderCont.data.conversion_rates[ouptC] * curr
+  
+  valueInput2.value = `${out}`
+})
+
+}
+function convert2 (curr, inputC, ouptC){
+    axios.get(`https://v6.exchangerate-api.com/v6/d66be1413f5f72c50cbc7c55/latest/${inputC}`)
+.then((RenderCont) =>{
+  let out = RenderCont.data.conversion_rates[ouptC] * curr
+  
+  valueInput1.value = `${out}`
+})
+}
+
+valueInput2?.addEventListener('input', function(){
+  const val = Number(valueInput2.value);
+  const currency1 = selection2.value;
+  const currency2 = selection1.value
+
+  const res = convert2(val, currency1, currency2)
+})
+
+selection2?.addEventListener('change', function(){
+  const val = Number(valueInput1.value);
+  const currency1 = selection1.value;
+  const currency2 = selection2.value
+
+  const res = convert1(val, currency1, currency2)
+
+})
+
+
+
+
+valueInput1?.addEventListener('input', function(){
+  const val = Number(valueInput1.value);
+  const currency1 = selection1.value;
+  const currency2 = selection2.value
+
+  const res = convert1(val, currency1, currency2)
+
+})
+
+selection1?.addEventListener('change', function(){
+  const val = Number(valueInput2.value);
+  const currency1 = selection2.value;
+  const currency2 = selection1.value
+
+  const res = convert2(val, currency1, currency2)
+})
+</script> 
+
 
 <main>
-  <div>
-    <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-      <img src={viteLogo} class="logo" alt="Vite Logo" />
-    </a>
-    <a href="https://svelte.dev" target="_blank" rel="noreferrer">
-      <img src={svelteLogo} class="logo svelte" alt="Svelte Logo" />
-    </a>
-  </div>
-  <h1>Vite + Svelte</h1>
-
-  <div class="card">
-    <Counter />
-  </div>
-
-  <p>
-    Check out <a href="https://github.com/sveltejs/kit#readme" target="_blank" rel="noreferrer">SvelteKit</a>, the official Svelte app framework powered by Vite!
-  </p>
-
-  <p class="read-the-docs">
-    Click on the Vite and Svelte logos to learn more
-  </p>
 </main>
 
 <style>
@@ -44,4 +89,5 @@
   .read-the-docs {
     color: #888;
   }
+
 </style>

@@ -1,0 +1,10 @@
+.flex-container {
+    display: flex;
+    justify-content: center;
+}
+.flex-element {
+    width: 50%;
+}
+select.flex-element  {
+    width: 20%;
+}
